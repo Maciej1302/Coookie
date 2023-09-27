@@ -22,6 +22,7 @@ WindowManager:
     ThirdWindow:
     RegisterWindow:
     GuestApp:
+    LoggedApp:
 
 
 <FirstWindow>
@@ -74,7 +75,7 @@ WindowManager:
                     background_color: "blue"
                     font_size:20
                     size_hint: 0.1, 0.1
-                    color:0.9,0.255,0.255,1
+                    color:1,1,1,1
                     on_release:
                         app.root.current = "register_window"
                         root.manager.transition.direction = "up"
@@ -119,66 +120,111 @@ WindowManager:
                
 <RegisterWindow>:
     name:"register_window"
-    GridLayout:
-        cols:1
-        Label:
-            text: "Enter your name:"
-            font_size:20
-        
-        TextInput:
-            id: name
-            multiline:False
-        
-        Label:
-            text:"Enter your surname:"
-            font_size:20
-        
-        TextInput:
-            id: surname
-            multiline:False
-        
-        
-        Label:
-            text:"Enter your email:"
-            font_size:20
-        
-        TextInput:
-            id: email
-            multiline:False
-        Label:
-            text:"Enter your password:"
-            font_size:20
-        
-        TextInput:
-            id: register_passw
-            multiline:False
-        
-        Label:
-            text:"Enter your date of birth:"
-            font_size:20
-        
-        TextInput:
-            id: date_birth
-            multiline:False
+    BoxLayout:
+        orientation: "vertical"
+        padding: 40
 
-        Button:
-            text: "Submit"
-            on_release: 
-                root.verification()
-                email.text=""
-                name.text=""
-                surname.text=""
-                register_passw.text=""
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        
-        Button:
-            text: "Go Back"
-            background_color: "grey"
-            font_size:20
-            size_hint: 0.3, 0.9
-            on_release:
-                app.root.current = "first"
-                root.manager.transition.direction = "down"
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 11
+                spacing: 15
+
+                Label:
+                    text: "Enter your name:"
+                    font_size:20
+                    color: 0, 0, 0, 1
+                    size_hint_y: 0.1
+                
+                TextInput:
+                    id: name
+                    multiline:False
+                    size_hint: 0.3, 0.6
+                
+                Label:
+                    text:"Enter your surname:"
+                    font_size:20
+                    color: 0, 0, 0, 1
+                    size_hint_y: 0.1
+                
+                TextInput:
+                    id: surname
+                    multiline:False
+                    size_hint: 0.3, 0.6
+                
+                
+                Label:
+                    text:"Enter your email:"
+                    font_size:20
+                    color: 0, 0, 0, 1
+                    size_hint_y: 0.1
+                
+                TextInput:
+                    id: email
+                    multiline:False
+                    size_hint: 0.3, 0.6
+                Label:
+                    text:"Enter your password:"
+                    font_size:20
+                    color: 0, 0, 0, 1
+                    size_hint_y: 0.1
+                
+                
+                TextInput:
+                    id: register_passw
+                    multiline:False
+                    size_hint: 0.3, 0.6
+                    password: True
+                
+                Label:
+                    text:"Enter your date of birth:"
+                    font_size:20
+                    color: 0, 0, 0, 1
+                    size_hint_y: 0.1
+                    
+                
+                
+                TextInput:
+                    id: date_birth
+                    multiline: False
+                    size_hint: 0.3, 0.6
+                    hint_text: "YYYY-MM-DD"
+                    
+                GridLayout:
+                    rows: 2
+                    spacing: 5
+                    Button:
+                        text: "Submit"
+                        
+                        on_release: 
+                            root.verification(date_birth.text,email.text)
+                            email.text=""
+                            name.text=""
+                            surname.text=""
+                            register_passw.text=""
+                            date_birth.text = ""
+                            date_birth.hint_text = "YYYY-MM-DD"
+                        background_color: "grey"
+                        size_hint: 0.5, 0.5
+                        font_size:20
+                    
+                    Button:
+                        text: "Go Back"
+                        background_color: "grey"
+                        font_size:20
+                        size_hint: 0.5, 0.5
+                        on_release:
+                            app.root.current = "first"
+                            root.manager.transition.direction = "down"
 <SecondWindow>:
     name: "second"
     BoxLayout:
@@ -223,6 +269,7 @@ WindowManager:
                 TextInput:
                     id: password
                     multiline: False
+                    password: True
 
                 BoxLayout:
                     spacing: 10  # Odstęp tylko między przyciskami w tym kontenerze
@@ -319,9 +366,87 @@ WindowManager:
                         root.manager.transition.direction = "up"
                         guest_space.text=""
 
-            
+<LoggedApp>
+    name: "loggedapp"
+
+    BoxLayout:
+        orientation: "horizontal"
+        padding: 20 
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        #miejsce na guzik dla zalogowanego uzytkownika
+        BoxLayout:
+            orientation: "vertical"
+            size_hint_x: None
+            width: 20
+            Button:
+                text: "kliknij"
+                size_hint: None, None
+                size: 20, 20  # Ustaw rozmiar guzika na 50x50
+                pos_hint: {"top": 1.0}
                 
+
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 5
+
+                BoxLayout:
+                    orientation: "vertical"
+                    Label:
+                        id: guest_recipe
+                        text: "Enter your ingredients"
+                        color: 0, 0, 0, 1
+                        font_size: 24 
+                    TextInput:
+                        id: guest_ingredients
+                        multiline: True
+
+                Label:
+                    text: "Suggested recipes:"
+                    x: -50 
+                    color: 0, 0, 0, 1
+                    font_size: 20
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    padding: 10
                 
+                ScrollView:
+                    Label:
+                        id: guest_space
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: self.width, None
+                        color: 0, 0, 0, 1
+
+                Button:
+                    text: "Find your recipe"
+                    background_color: "grey"
+                    font_size: 20
+                    size_hint: 0.1, 0.2
+                    on_release:
+                        root.GuestPress()
+                        guest_ingredients.text=""
+
+                Button:
+                    text: "Go back"
+                    background_color: "grey"
+                    font_size: 20
+                    size_hint: 0.1, 0.2
+                    on_release:
+                        app.root.current = "first"
+                        root.manager.transition.direction = "up"
+                        guest_space.text=""
+
+
                 
          
            

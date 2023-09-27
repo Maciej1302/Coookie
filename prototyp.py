@@ -10,6 +10,8 @@ from projekt import szukarka
 from projekt import check_user_existence 
 from projekt import add_user
 from kivy.uix.image import Image
+from datetime import datetime
+import re
 
 class MyPopup(Popup):
 
@@ -27,6 +29,7 @@ class GuestApp(Screen,Widget):
         self.ids.guest_space.text=getRecipe(ingredients)*5
 
     pass
+
 
 def open_pop_up(self):
     pops = MyPopup()
@@ -50,7 +53,7 @@ class SecondWindow(Screen):
             login = self.ids.login.text
             password = self.ids.password.text
             if check_user_existence(login):
-                App.get_running_app().root.current='guestapp'
+                App.get_running_app().root.current='loggedapp'
                 App.get_running_app().root.transition.direction = "up"
             else:
                 App.get_running_app().root.current='second'
@@ -65,26 +68,52 @@ class ThirdWindow(Screen):
     pass
 
 class RegisterWindow(Screen):
-    def verification(self):
-        name=self.ids.name.text
-        surname=self.ids.surname.text
-        passw=self.ids.register_passw.text
-        email= self.ids.email.text
+    def verification(self,value,email):
+        name = self.ids.name.text
+        surname = self.ids.surname.text
+        passw = self.ids.register_passw.text
+        email = self.ids.email.text
+        no_valid = self.date_verification(value)
+        email_check = self.email_verification(email)
         if check_user_existence(email):
-            App.get_running_app().root.current='second'
-        
-        elif name==""or surname==""or passw==""or email=="":
+            App.get_running_app().root.current = 'second'
+        elif name == "" or surname == "" or passw == "" or email == "" or not no_valid or not email_check:
             open_pop_up(self)
         else:
-            add_user(email,passw,name,surname)
-            App.get_running_app().root.current='second'
-         
+            add_user(email, passw, name, surname)
+            App.get_running_app().root.current = 'second'
+    
+    def date_verification(self, v1):
+        input_date = v1.strip()
+        if self.is_valid_date(input_date):
+            return True
+
+        else:
+            
+            return False
+
+    def is_valid_date(self, date_str):
+        try:
+            datetime.strptime(date_str, '%Y-%m-%d')
+            return True
+        except ValueError:
+
+            return False
+    def email_verification(self, e1):
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if re.match(pattern, e1):
+            return True
+        else:
+            return False
     pass
 
 class WindowManager(ScreenManager):
     pass
 
 class Widgets(Widget): 
+    pass
+
+class LoggedApp(Screen):
     pass
 
 
