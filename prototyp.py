@@ -24,9 +24,8 @@ class FirstWindow(Screen):
     pass
 
 class GuestApp(Screen,Widget):
-    def GuestPress(self):
-        ingredients= self.ids.guest_ingredients.text
-        self.ids.guest_space.text=getRecipe(ingredients)*5
+    def GuestPress(self, ingredients):
+        return getRecipe(ingredients)*5
 
     pass
 
@@ -46,18 +45,15 @@ def getRecipe(id):
 
 
 class SecondWindow(Screen):
-         
-            
-
          def verification(self):
             login = self.ids.login.text
             password = self.ids.password.text
-            if check_user_existence(login):
-                App.get_running_app().root.current='loggedapp'
-                App.get_running_app().root.transition.direction = "up"
-            else:
-                App.get_running_app().root.current='second'
-                open_pop_up(self)
+            #if check_user_existence(login):
+            App.get_running_app().root.current='loggedapp'
+            App.get_running_app().root.transition.direction = "up"
+            #else:
+               # App.get_running_app().root.current='second'
+                #open_pop_up(self)
                 
 
 
@@ -68,16 +64,19 @@ class ThirdWindow(Screen):
     pass
 
 class RegisterWindow(Screen):
-    def verification(self,value,email):
+    def verification(self,value,email,name,surname, passwd):
         name = self.ids.name.text
         surname = self.ids.surname.text
         passw = self.ids.register_passw.text
         email = self.ids.email.text
         no_valid = self.date_verification(value)
         email_check = self.email_verification(email)
+        name_check = self.name_verification(name)
+        surname_check = self.name_verification(surname)
+        password_check = self.password_verification(passwd)
         if check_user_existence(email):
             App.get_running_app().root.current = 'second'
-        elif name == "" or surname == "" or passw == "" or email == "" or not no_valid or not email_check:
+        elif name_check==False or surname_check == False or password_check == False or not no_valid or not email_check:
             open_pop_up(self)
         else:
             add_user(email, passw, name, surname)
@@ -101,10 +100,35 @@ class RegisterWindow(Screen):
             return False
     def email_verification(self, e1):
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if re.match(pattern, e1):
-            return True
-        else:
+        if not re.match(pattern, e1) or e1==" ":
             return False
+        else:
+            return True
+    def name_verification(self,data):
+        if(data== " " or not data[0].isupper() or data[1:].isupper()):
+            return False
+        
+        
+        for char in data[1:]:
+            if not char.isalpha() or char.isupper():
+                return False
+        
+        return True
+    
+    def password_verification(self,password):
+        if len(password) < 8 or password==" ":
+            return False
+
+        if not re.search(r'[a-z]', password):
+            return False
+        if not re.search(r'[A-Z]', password):
+            return False
+        if not re.search(r'\d', password):
+            return False
+        if not re.search(r'[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]', password):
+            return False
+
+        return True
     pass
 
 class WindowManager(ScreenManager):
@@ -114,6 +138,11 @@ class Widgets(Widget):
     pass
 
 class LoggedApp(Screen):
+    def LoggedPress(self,ingredients):
+        return getRecipe(ingredients)*5
+    pass
+
+class OptionWindow(Screen):
     pass
 
 

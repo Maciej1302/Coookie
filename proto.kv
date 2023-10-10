@@ -23,6 +23,7 @@ WindowManager:
     RegisterWindow:
     GuestApp:
     LoggedApp:
+    OptionWindow:
 
 
 <FirstWindow>
@@ -184,6 +185,7 @@ WindowManager:
                     multiline:False
                     size_hint: 0.3, 0.6
                     password: True
+                    hint_text: "min. 8 characters, min. 1 capital letter, min. 1 lowercase letter, min. 1 special character"
                 
                 Label:
                     text:"Enter your date of birth:"
@@ -206,13 +208,15 @@ WindowManager:
                         text: "Submit"
                         
                         on_release: 
-                            root.verification(date_birth.text,email.text)
+                            root.verification(date_birth.text,email.text,name.text,surname.text, register_passw.text )
                             email.text=""
                             name.text=""
                             surname.text=""
                             register_passw.text=""
+                            register_passw.hint_text = "min. 8 characters, min. 1 capital letter, min. 1 lowercase letter, min. 1 special character" 
                             date_birth.text = ""
                             date_birth.hint_text = "YYYY-MM-DD"
+
                         background_color: "grey"
                         size_hint: 0.5, 0.5
                         font_size:20
@@ -351,7 +355,7 @@ WindowManager:
                     font_size: 20
                     size_hint: 0.1, 0.2
                     on_release:
-                        root.GuestPress()
+                        guest_space.text = root.GuestPress(guest_ingredients.text)
                         guest_ingredients.text=""
 
 
@@ -385,11 +389,18 @@ WindowManager:
             orientation: "vertical"
             size_hint_x: None
             width: 20
+            pos_hint: {"top": 1}
+            padding: 0, 0, 0, 510
+            
             Button:
-                text: "kliknij"
+                text:"Opcje"
+                
                 size_hint: None, None
                 size: 20, 20  # Ustaw rozmiar guzika na 50x50
-                pos_hint: {"top": 1.0}
+                pos_hint: {"top": 1, "left": 1}
+                on_release:
+                    app.root.current = "option"
+                
                 
 
         AnchorLayout:
@@ -402,12 +413,12 @@ WindowManager:
                 BoxLayout:
                     orientation: "vertical"
                     Label:
-                        id: guest_recipe
+                        id: logged_recipe
                         text: "Enter your ingredients"
                         color: 0, 0, 0, 1
                         font_size: 24 
                     TextInput:
-                        id: guest_ingredients
+                        id: logged_ingredients
                         multiline: True
 
                 Label:
@@ -421,7 +432,7 @@ WindowManager:
                 
                 ScrollView:
                     Label:
-                        id: guest_space
+                        id: logged_space
                         size_hint_y: None
                         height: self.texture_size[1]
                         text_size: self.width, None
@@ -433,8 +444,12 @@ WindowManager:
                     font_size: 20
                     size_hint: 0.1, 0.2
                     on_release:
-                        root.GuestPress()
-                        guest_ingredients.text=""
+                        logged_space.text = root.LoggedPress(logged_ingredients.text)
+                        logged_ingredients.text=""
+                        
+                        
+                        
+                    
 
                 Button:
                     text: "Go back"
@@ -444,9 +459,14 @@ WindowManager:
                     on_release:
                         app.root.current = "first"
                         root.manager.transition.direction = "up"
-                        guest_space.text=""
+                        logged_space.text=""
 
-
+<OptionWindow>
+    name: "option"
+    BoxLayout:
+        Label:
+            text:"TU SIE BEDA DZIALY CUDA"
+            font_size: 30
                 
          
            
