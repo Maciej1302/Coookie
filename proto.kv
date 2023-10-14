@@ -480,7 +480,7 @@ WindowManager:
             anchor_y: "center"
 
             GridLayout:
-                rows: 11
+                rows: 12
                 spacing: 10
         
                 Button:
@@ -507,12 +507,16 @@ WindowManager:
                     text: "Dark Mode"
                     size_hint: 0.05, 0.2
                     font_size: 25
+                Button: 
+                    text: "Rate App"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
                 Button:
                     text: "Recommend App"
                     size_hint: 0.05, 0.2
                     font_size: 25
                 Button: 
-                    text: "Privacy Policy"
+                    text: "About App"
                     size_hint: 0.05, 0.2
                     font_size: 25
                 Button:
@@ -523,6 +527,8 @@ WindowManager:
                     text: "Sign Out"
                     size_hint: 0.05, 0.2
                     font_size: 25
+                    on_release:
+                        app.root.current = "first"
                 Button:
                     text: "Go Back"
                     size_hint: 0.05, 0.2
