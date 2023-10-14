@@ -464,9 +464,76 @@ WindowManager:
 <OptionWindow>
     name: "option"
     BoxLayout:
-        Label:
-            text:"TU SIE BEDA DZIALY CUDA"
-            font_size: 30
-                
+        orientation: "vertical"
+        padding: 75
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 11
+                spacing: 10
+        
+                Button:
+                    text: "My Account"
+                    size_hint: 0.05, 0.2  # Zmniejsz szerokość na 5%
+                    font_size: 25
+                Button: 
+                    text: "Saved Recipes"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button:
+                    text: "Friends"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button: 
+                    text: "Your Analysis"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button:
+                    text: "Language"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button: 
+                    text: "Dark Mode"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button:
+                    text: "Recommend App"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button: 
+                    text: "Privacy Policy"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button:
+                    text: "Help"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button: 
+                    text: "Sign Out"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                Button:
+                    text: "Go Back"
+                    size_hint: 0.05, 0.2
+                    font_size: 25
+                    on_release:
+                        app.root.current = "loggedapp"
+
+
+
+        
+        
+        
+        
          
            

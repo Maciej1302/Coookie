@@ -105,10 +105,11 @@ class RegisterWindow(Screen):
         else:
             return True
     def name_verification(self,data):
-        if(data== " " or not data[0].isupper() or data[1:].isupper()):
+        if data== "":
             return False
         
-        
+        if not data[0].isupper() or data[1:].isupper():
+            return False
         for char in data[1:]:
             if not char.isalpha() or char.isupper():
                 return False
