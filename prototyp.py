@@ -62,7 +62,7 @@ class SecondWindow(Screen):
             #else:
                # App.get_running_app().root.current='second'
                 #open_pop_up(self)
-            
+            #123
 class MyAccount(Screen):
     pass                
 

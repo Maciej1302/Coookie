@@ -43,14 +43,11 @@ def  add_favorite_choosed_recipe(recipe_id,login,col):
             licznik+=1
 
 
-    # Wczytaj istniejące dane z pliku CSV
     with open(file, 'r', newline='') as plik_csv:
         czytnik = csv.reader(plik_csv)
         dane = list(czytnik)
 
-    # Sprawdź, czy wiersz i kolumna istnieją w pliku CSV
     if nr_wiersz < len(dane) and kolumna < len(dane[nr_wiersz]):
-        # Zaktualizuj wartość w określonym wierszu i kolumnie
         dane[nr_wiersz][kolumna] = dane[nr_wiersz][kolumna]+" " +nowa_wartosc
 
         # Zapisz zmienione dane z powrotem do pliku CSV
