@@ -11,19 +11,21 @@
             text: "Wrong input"
             font_size:26
         Button:
-            size_hint: 0.8,0.2
-            pos_hint:{"x":0.1}
+            size_hint: 0.1,0.2
+            pos_hint:{"x":0.5}
             text:"Close"
             on_release: root.dismiss()
 
 WindowManager:
     OptionWindow:
+    LoggedApp:
     FirstWindow:
     SecondWindow:
     ThirdWindow:
     RegisterWindow:
     GuestApp:
-    LoggedApp:
+    MyAccount:
+    SavedRecipes:
     
 
 
@@ -345,11 +347,9 @@ WindowManager:
                         size_hint_y: None
                         height: self.texture_size[1]
                         text_size: self.width, None
-                        color: 0, 0, 0, 1
-                        #Image:
-                            #source:"kanapka_ze_schabem.png"
-                            #allow_stretch: True
-                            #keep_ratio:False
+                        
+                
+                    
                 Button:
                     text: "Find your recipe"
                     background_color: "grey"
@@ -401,6 +401,11 @@ WindowManager:
                 pos_hint: {"top": 1, "left": 1}
                 on_release:
                     app.root.current = "option"
+                    root.manager.transition.direction = "right"
+                Image:
+                    source: 'trybik.png'
+                    center_x: self.parent.center_x
+                    center_y: self.parent.center_y
                 
                 
 
@@ -409,7 +414,8 @@ WindowManager:
             anchor_y: "center"
 
             GridLayout:
-                rows: 5
+               
+                rows: 11
 
                 BoxLayout:
                     orientation: "vertical"
@@ -438,8 +444,57 @@ WindowManager:
                         height: self.texture_size[1]
                         text_size: self.width, None
                         color: 0, 0, 0, 1
+                Label:
+                    text: "Add to your favorite recipes:"
+                    x: -50 
+                    color: 0, 0, 0, 1
+                    font_size:15
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    padding: 10
+
+                TextInput:
+                    id: favorite_id_recipe
+                    multiline: False
+                    size_hint: 0.1, 0.3
+                    hint_text: "Write recipe ID"
+                    
+
+                Label:
+                    text: "Write the choosed recipe:"
+                    x: -50 
+                    color: 0, 0, 0, 1
+                    font_size: 15
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    padding: 10    
+
+                TextInput:
+                    id: choosed_id_recipe
+                    multiline: False
+                    size_hint: 0.1, 0.3
+                    hint_text: "Write recipe ID"
+                    padding: 10
+                    
+                    
 
                 Button:
+                    padding: 10
+                    text:"Save"
+                    background_color: "grey"
+                    size_hint: None, None
+                    size_hint: 0.1, 0.2
+                    font_size: 20
+                    pos_hint: {"top": 1, "left": 1}
+                    on_release:
+                        root.AddFavorite()
+                        choosed_id_recipe.text=""
+                        favorite_id_recipe.text=""
+                    
+                    
+
+                Button:
+                    padding: 10
                     text: "Find your recipe"
                     background_color: "grey"
                     font_size: 20
@@ -487,10 +542,18 @@ WindowManager:
                     text: "My Account"
                     size_hint: 0.05, 0.2  # Zmniejsz szerokość na 5%
                     font_size: 25
+                    on_release:
+                        app.root.current = "myaccount"
+                        root.manager.transition.direction = "up"
+                        
                 Button: 
                     text: "Saved Recipes"
                     size_hint: 0.05, 0.2
                     font_size: 25
+                    on_release:
+                        app.root.current = "savedrecipes"
+                        root.manager.transition.direction = "up"
+                        
                 Button:
                     text: "Friends"
                     size_hint: 0.05, 0.2
@@ -529,18 +592,81 @@ WindowManager:
                     font_size: 25
                     on_release:
                         app.root.current = "first"
+                        root.manager.transition.direction = "up"
                 Button:
                     text: "Go Back"
                     size_hint: 0.05, 0.2
                     font_size: 25
                     on_release:
                         app.root.current = "loggedapp"
+                        root.manager.transition.direction = "left"
 
 
 
+<MyAccount>
+    name:"myaccount"
+
+
+    GridLayout:
+        cols:1
+        Label:
+            id:user_data_email
+            font_size:20
+            text:"Your email:"
+            size_hint: 0.05, 0.2
+            color: 1,1,1,1
+        Label:
+            id:user_data_password
+            font_size:20
+            text:"Your password:"
+            size_hint: 0.05, 0.2
+            color: 1,1,1,1
+            password: True
+
+        Button:
+            text: "Go Back"
+            size_hint: 0.05, 0.2
+            font_size: 25
+            on_release:
+                app.root.current = "option"
+                root.manager.transition.direction = "down"
+               
         
+<SavedRecipes>
+    name:"savedrecipes"
+
+
+    GridLayout:
+        cols:1
+        Label:
+            id:user_saved_recipes
+            font_size:20
+            text:"Your saved recipes:"
+            size_hint: 0.05, 0.2
+            background_color: 1,1, 0, 1
+        ScrollView:
+            Label:
+                id:your_saved_recipes
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None
+                text:"Your saved recipes:"
+                background_color: 0, 0, 0, 1
         
-        
-        
-         
+        Button:
+            text: "Refresh your saved recipes"
+            size_hint: 0.05, 0.2
+            font_size: 25
+            on_release:
+                root.SavedPress()
+               
+                
+
+        Button:
+            text: "Go Back"
+            size_hint: 0.05, 0.2
+            font_size: 25
+            on_release:
+                app.root.current = "option"
+                root.manager.transition.direction = "down"         
            

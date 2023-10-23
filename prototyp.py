@@ -9,9 +9,15 @@ from kivy.uix.popup import Popup
 from projekt import szukarka 
 from projekt import check_user_existence 
 from projekt import add_user
+from projekt import add_favorite_choosed_recipe
 from kivy.uix.image import Image
 from datetime import datetime
 import re
+from projekt import find_favorite_choosed_recipe
+
+
+
+
 
 class MyPopup(Popup):
 
@@ -43,10 +49,12 @@ def getRecipe(id):
         final_recipe=final_recipe+item+"\n"+"\n"
     return final_recipe
 
-
+user_login="mail"
 class SecondWindow(Screen):
          def verification(self):
             login = self.ids.login.text
+            global user_login
+            user_login=login
             password = self.ids.password.text
             #if check_user_existence(login):
             App.get_running_app().root.current='loggedapp'
@@ -54,7 +62,9 @@ class SecondWindow(Screen):
             #else:
                # App.get_running_app().root.current='second'
                 #open_pop_up(self)
-                
+            
+class MyAccount(Screen):
+    pass                
 
 
 class ThirdWindow(Screen):
@@ -143,10 +153,21 @@ class LoggedApp(Screen):
         return getRecipe(ingredients)*5
     pass
 
+    def AddFavorite(self):
+        print(user_login)
+        recipe_A=self.ids.favorite_id_recipe.text
+        recipe_B = self.ids.choosed_id_recipe.text
+        add_favorite_choosed_recipe(recipe_A,user_login,4)
+        add_favorite_choosed_recipe(recipe_B,user_login,5)
+        
+
 class OptionWindow(Screen):
     pass
 
-
+class SavedRecipes(Screen):
+    def SavedPress(self):
+        self.ids.your_saved_recipes.text=find_favorite_choosed_recipe(user_login)
+    pass
 
 kv = Builder.load_file("proto.kv")
 
