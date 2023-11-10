@@ -27,7 +27,7 @@ def  add_favorite_choosed_recipe(recipe_id,login,col): #recipes management
         
         for row in csv_reader:
             # Pierwsza kolumna to wiersz[0]
-            first_col = row[0]
+            first_col = row[1]
             if first_col==login:
                 print(counter)
                 row_num=counter

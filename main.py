@@ -108,8 +108,8 @@ class LoggedApp(Screen):
         print(user_login)
         recipe_A=self.ids.favorite_id_recipe.text
         recipe_B = self.ids.choosed_id_recipe.text
-        rm.add_favorite_choosed_recipe(recipe_A,user_login,4)
-        rm.add_favorite_choosed_recipe(recipe_B,user_login,5)
+        rm.add_favorite_choosed_recipe(recipe_A,user_login,7)
+        rm.add_favorite_choosed_recipe(recipe_B,user_login,8)
         
 
 class OptionWindow(Screen):
