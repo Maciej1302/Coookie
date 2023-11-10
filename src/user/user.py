@@ -1,6 +1,6 @@
 import pandas as pd
 import csv
-
+from datetime import datetime
 
 def check_user_existence(mail): #user
     df = pd.read_csv('users.csv')
@@ -12,10 +12,24 @@ def check_user_existence(mail): #user
 
 
 
-def add_user(email,password,name,surname): #user
-   data=[[email,password,name,surname]]
-   file=open("users.csv","a",newline='')
-   writer=csv.writer(file)
+def add_user(email,password,name,surname,date_of_birth): #user
+    
+    with open("users.csv","a+",newline='') as csv_user_file: 
 
-   writer.writerows(data)
-   file.close()
+        csv_user_file.seek(0)   
+        
+        reader = csv.reader(csv_user_file)
+
+        existing_data = list(reader)
+        
+        last_index = len(existing_data) 
+
+        date = datetime.now()
+        
+        date_of_registration = date.date()
+        
+        data=[[last_index,email,password,name,surname,date_of_birth,date_of_registration]]
+        writer=csv.writer(csv_user_file)
+        
+        writer.writerows(data)
+        

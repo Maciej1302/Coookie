@@ -26,7 +26,7 @@ class FirstWindow(Screen):
 class GuestApp(Screen,Widget):
     def GuestPress(self, ingredients):
         return getRecipe(ingredients)*5
-
+    
     pass
 
 def open_pop_up(self):
@@ -34,7 +34,7 @@ def open_pop_up(self):
     pops.open()
     
 
-def getRecipe(id): #recipes management
+def getRecipe(id): 
     recipe=rm.recipe_searcher(id)
     final_recipe=""
     for item in recipe:
@@ -47,13 +47,13 @@ class SecondWindow(Screen):
             global user_login
             user_login=login
             password = self.ids.password.text
-            #if check_user_existence(login):
-            App.get_running_app().root.current='loggedapp'
-            App.get_running_app().root.transition.direction = "up"
-            #else:
-               # App.get_running_app().root.current='second'
-                #open_pop_up(self)
-            #123
+            if user.check_user_existence(login):
+                App.get_running_app().root.current='loggedapp'
+                App.get_running_app().root.transition.direction = "up"
+            else:
+                App.get_running_app().root.current='second'
+                open_pop_up(self)
+            
 
 
 class MyAccount(Screen):
@@ -68,12 +68,12 @@ class ThirdWindow(Screen):
 
 
 class RegisterWindow(Screen):
-    def verification(self, value, email, name, surname, passwd):
+    def verification(self, date_of_birth, email, name, surname, passwd):
         name = self.ids.name.text
         surname = self.ids.surname.text
         passw = self.ids.register_passw.text
         email = self.ids.email.text
-        no_valid = verification.date_verification(value)
+        no_valid = verification.date_verification(date_of_birth)
         email_check = verification.email_verification(email)
         name_check = verification.name_verification(name)
         surname_check = verification.name_verification(surname)
@@ -85,7 +85,7 @@ class RegisterWindow(Screen):
         elif name_check==False or surname_check == False or password_check == False or not no_valid or not email_check:
             open_pop_up(self)
         else:
-            user.add_user(email, passw, name, surname)
+            user.add_user(email, passw, name, surname,date_of_birth)
             App.get_running_app().root.current = 'second'
     
     pass
