@@ -13,7 +13,7 @@ from src.recipes_management import recipes_management as rm
 from src.user import user as user
 from src.verification import verification as verification 
 from src.analysis import graphs as graph
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvas, NavigationToolbar2Kivy, FigureCanvasKivyAgg
 class MyPopup(Popup):
     pass
 
@@ -126,7 +126,11 @@ class Analysis(Screen):
 
 class FoodAnalysis(Screen):
     def generate_analysis(self):
+
         return graph.bar_plot()
+    pass
+
+class FoodAnalysisScreen(Screen):
     pass
 
 kv = Builder.load_file("proto.kv")

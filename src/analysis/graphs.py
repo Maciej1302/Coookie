@@ -30,12 +30,14 @@ def bar_plot():
     ingredients = dict.keys()
     amount = dict.values()
 
+
     plt.bar(ingredients,amount)
     plt.xlabel("Ingredients")
     plt.ylabel("Amount")
     plt.title("Ingredients chart")
     plt.locator_params(axis='y', integer=True)
     plt.xticks(rotation=45, ha='right', rotation_mode='anchor')
+    
     plt.show()
 
 
@@ -48,23 +50,4 @@ def bar_plot():
     
 
 
-    # choosed_recipes = users_frame['ChoosedRecipes']
-    # print(choosed_recipes)    
-
-
-
-
-# print(df.head)
-#     y = [1,2,3,4]
-#     x = ["jajka","bulka","ser"]
-
-#     x = {'jajka': 2,
-#         'bułka': 3,
-#         'ser':5}
-
-#     os_x = list(x.keys())
-#     os_y = list(x.values())
-#     print(os_x)
-#     print(os_y)
-#     plt.bar(os_x,os_y)
-#     plt.show()
+  
