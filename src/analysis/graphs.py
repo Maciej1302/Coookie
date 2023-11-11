@@ -51,7 +51,7 @@ def bar_plot():
     # choosed_recipes = users_frame['ChoosedRecipes']
     # print(choosed_recipes)    
 
-bar_plot()
+
 
 
 # print(df.head)
