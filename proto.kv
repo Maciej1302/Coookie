@@ -26,6 +26,8 @@ WindowManager:
     GuestApp:
     MyAccount:
     SavedRecipes:
+    Analysis:
+    FoodAnalysis:
     
 
 
@@ -562,6 +564,8 @@ WindowManager:
                     text: "Your Analysis"
                     size_hint: 0.05, 0.2
                     font_size: 25
+                    on_release:
+                        app.root.current = "analysis"
                 Button:
                     text: "Language"
                     size_hint: 0.05, 0.2
@@ -670,4 +674,79 @@ WindowManager:
                 app.root.current = "option"
                 root.manager.transition.direction = "down"         
            
-#123
+<Analysis>
+    name:"analysis"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 200
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 3
+                spacing: 40
+
+                Button:
+                    text: "Food Analysis"
+                    font_size: 25
+                    on_release:
+                        app.root.current = "food_analysis"
+                
+                Button:
+                    text: "Financal Analysis"
+                    font_size: 25
+                
+                Button: 
+                    text: "Go Back"
+                    font_size: 25
+                    on_release:
+                        app.root.current = "option"
+                
+
+<FoodAnalysis>
+    name:"food_analysis"
+    BoxLayout:
+        orientation: "vertical"
+        padding: 200
+
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 3
+                spacing: 40
+
+                Label:
+                    text: "After clicking the 'Generate Analysis' button, your individual analysis will be generated,\n                showing how many times you used a given ingredient while cooking."
+                    font_size: 20
+                    color: 0, 0, 0, 1
+                
+                Button:
+                    text: "Generate Analysis"
+                    font_size: 25
+                    on_release:
+                        root.generate_analysis()
+                
+                Button: 
+                    text: "Go Back"
+                    font_size: 25
+                    on_release:
+                        app.root.current = "analysis"
+

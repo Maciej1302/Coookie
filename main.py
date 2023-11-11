@@ -12,7 +12,8 @@ import re
 from src.recipes_management import recipes_management as rm
 from src.user import user as user
 from src.verification import verification as verification 
-
+from src.analysis import graphs as graph
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 class MyPopup(Popup):
     pass
 
@@ -118,6 +119,14 @@ class OptionWindow(Screen):
 class SavedRecipes(Screen):
     def SavedPress(self):
         self.ids.your_saved_recipes.text=rm.find_favorite_choosed_recipe(user_login)
+    pass
+
+class Analysis(Screen):
+    pass
+
+class FoodAnalysis(Screen):
+    def generate_analysis(self):
+        return graph.bar_plot()
     pass
 
 kv = Builder.load_file("proto.kv")
