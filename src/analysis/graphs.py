@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-def bar_plot():
+def bar_plot(id):
+    
     users_frame = pd.read_csv('users.csv') # DataFrame z csvki
     print(users_frame.head())
     
-    choosed_recipes = users_frame.loc[0,'ChoosedRecipes'] # wybranie ulubionych przepisow
+    choosed_recipes = users_frame.loc[id,'ChoosedRecipes'] # wybranie ulubionych przepisow
+    print("wybrane przepisy to" + choosed_recipes)
 
     choosed_recipes_list = choosed_recipes.split() # zrobienie listy ulubionych przepisow
 
@@ -38,7 +40,17 @@ def bar_plot():
     plt.locator_params(axis='y', integer=True)
     plt.xticks(rotation=45, ha='right', rotation_mode='anchor')
     
-    plt.show()
+    fig, ax = plt.subplots()  # Utwórz figurę i osie
+    ax.bar(ingredients, amount)
+    ax.set_xlabel("Ingredients")
+    ax.set_ylabel("Amount")
+    ax.set_title("Ingredients chart")
+    ax.locator_params(axis='y', integer=True)
+    ax.set_xticklabels(ingredients, rotation=45, ha='right', rotation_mode='anchor')
+    fig.tight_layout()
+    plt.subplots_adjust(bottom=0.2)
+    
+    return fig  # Zwróć figurę zamiast wywoływania plt.show()
 
 
     

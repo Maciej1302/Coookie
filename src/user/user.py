@@ -32,4 +32,16 @@ def add_user(email,password,name,surname,date_of_birth): #user
         writer=csv.writer(csv_user_file)
         
         writer.writerows(data)
+
+def get_user_id(email):
+    users_frame = pd.read_csv('users.csv')
+    user_id = users_frame[users_frame['email'] ==email]['id'].values
+    print(user_id[0])
+    return user_id[0]
+
+
+
+
+
+get_user_id("przykladowy@gmail.com")
         
