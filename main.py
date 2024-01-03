@@ -316,6 +316,9 @@ class MyMainApp(App):
         self.sm.add_widget(Analysis(name='analysis'))
         self.sm.add_widget(LoggedApp(name='loggedapp'))
         self.sm.add_widget(MyAccount(name='my_account'))
+        self.sm.add_widget(FoodAnalysis(name='food_analysis'))
+        
+        FoodAnalysisScreen
         return self.sm
         
     def build_my_acc(self):
