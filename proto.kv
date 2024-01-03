@@ -547,8 +547,8 @@ WindowManager:
                     size_hint: 0.05, 0.2  # Zmniejsz szerokość na 5%
                     font_size: 25
                     on_release:
-                        app.root.current = "myaccount"
-                        root.manager.transition.direction = "up"
+                        root.go_to_my_account()
+                        
                         
                 Button: 
                     text: "Saved Recipes"
@@ -610,32 +610,114 @@ WindowManager:
 
 
 <MyAccount>
-    name:"myaccount"
+    name:"my_account"
 
 
-    GridLayout:
-        cols:1
-        Label:
-            id:user_data_email
-            font_size:20
-            text:"Your email:"
-            size_hint: 0.05, 0.2
-            color: 1,1,1,1
-        Label:
-            id:user_data_password
-            font_size:20
-            text:"Your password:"
-            size_hint: 0.05, 0.2
-            color: 1,1,1,1
-            password: True
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20
 
-        Button:
-            text: "Go Back"
-            size_hint: 0.05, 0.2
-            font_size: 25
-            on_release:
-                app.root.current = "option"
-                root.manager.transition.direction = "down"
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 15
+                spacing: 10
+
+                Label: 
+                    text: "YOUR PERSONAL DATA"
+                    color: 0, 0, 0, 1
+                    font_size: 20
+                
+                Label:
+                    text: "Your unique id: " + root.unique_id 
+                    color: 0, 0, 0, 1
+                    font_size: 20
+
+                Label:
+                    text: "E-mail: " + root.email  
+                    color: 0, 0, 0, 1
+                    font_size: 20
+                
+                Label:
+                    text: "Name: " + root.name
+                    color: 0, 0, 0, 1
+                    font_size: 20
+
+                Label:
+                    text: "Surname: " + root.surname
+                    color: 0, 0, 0, 1   
+                    font_size: 20 
+                
+                Label:
+                    text: "Date of birth: " + root.date_of_birth
+                    color: 0, 0, 0, 1   
+                    font_size: 20
+
+                Label:
+                    text: "Change password "
+                    color: 0, 0, 0, 1   
+                    font_size: 20
+                    
+                TextInput:
+                    id: current_password
+                    multiline: False
+                    hint_text: "enter your current password"
+                    font_size: 15
+                    password: True
+
+                TextInput:
+                    id: new_password
+                    multiline: False
+                    hint_text: "enter your new password"
+                    font_size: 15
+                    password: True
+                
+                Button:
+                    text: "Cofirm password change"
+                    font_size: 20
+                    on_release:
+                        root.change_password(current_password.text,new_password.text)
+                        current_password.text = ""
+                        new_password.text = ""
+                Label:
+                    text: "Change e-mail"
+                    color: 0, 0, 0, 1 
+                    font_size: 20
+
+                TextInput:
+                    id: new_mail
+                    multiline: False
+                    hint_text: "enter your new email"
+                    font_size: 15
+
+                Button:
+                    text: "Cofirm email change"
+                    font_size: 20
+                    on_release:
+                        root.change_email(new_mail.text)
+                        new_mail.text = ""
+                
+                Button:
+                    text: "Delete Account"
+                    font_size: 20
+
+                Button:
+                    text: "Go back"    
+                    font_size: 20
+                    on_release:
+                        app.root.current = "option"
+                        root.manager.transition.direction = "down"  
+               
+                
                
         
 <SavedRecipes>

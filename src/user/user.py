@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 from datetime import datetime
 
+
 def check_user_existence(mail): #user
     df = pd.read_csv('users.csv')
     for index, row in df.iterrows():
@@ -40,8 +41,35 @@ def get_user_id(email):
     return user_id[0]
 
 
+def get_user_data(user_id):
+    user_data = pd.read_csv('users.csv')
+    personal_data = user_data[user_data['id'] == user_id][['email', 'name', 'surname', 'date_of_birth']].values
+    if personal_data.size > 0:
+        personal_data_tuple = tuple(personal_data[0])
+    else:
+        personal_data_tuple = ('', '', '', '')  # lub inna domyślna wartość
+    print(personal_data_tuple)
+    return personal_data_tuple
 
+def change_password(user_id, current_passwd, new_passwd):
+    
+    df = pd.read_csv('users.csv')
+    password = df[df['id'] == user_id]['password'].values
+    
+    if current_passwd == password:
+        df.loc[df['id'] == user_id, 'password'] = new_passwd
+        df.to_csv('users.csv', index=False)
+        return True
+    else:
+        return False
+    
+def change_email(user_id,new_email):
 
+    df = pd.read_csv('users.csv')
 
-get_user_id("przykladowy@gmail.com")
+    df.loc[df['id'] == user_id, 'email'] = new_email
+    df.to_csv('users.csv', index=False)
+       
+change_email(1,'gfgfdgfdigf')
+
         

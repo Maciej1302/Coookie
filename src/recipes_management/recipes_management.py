@@ -24,40 +24,44 @@ def recipe_searcher(ing): #recipes management
 
 
 
-def  add_favorite_choosed_recipe(recipe_id,login,col): #recipes management 
-    file='users.csv'
-    row_num=0
-    col_num=col
-    counter=0
-   
-    new_value = recipe_id
-    with open('users.csv', 'r') as csv_file:
-        csv_reader = csv.reader(csv_file)
 
+
+def  add_favorite_choosed_recipe(recipe_id,user_id,col): #recipes management 
+
+    df = pd.read_csv("user_recipes.csv")
+    df[col] = df[col].astype('object')
+    
+    user_id = int(user_id)
+    existing_users_id = list(df['user_id'])
+    
+    if user_id in existing_users_id:
+
+        index = df.index[df['user_id'] == user_id]
+        print(type(recipe_id))
+        print(recipe_id)
+        existing_data = df.loc[index,col]
         
-        for row in csv_reader:
-            # Pierwsza kolumna to wiersz[0]
-            first_col = row[1]
-            if first_col==login:
-                print(counter)
-                row_num=counter
-            counter+=1
-
-
-    with open(file, 'r', newline='') as csv_file:
-        scanner = csv.reader(csv_file)
-        data = list(scanner)
-
-    if row_num < len(data) and col_num < len(data[row_num]):
-        data[row_num][col_num] = data[row_num][col_num]+" " +new_value
-
-        # Zapisz zmienione dane z powrotem do pliku CSV
-        with open(file, 'w', newline='') as csv_file:
-            save_file = csv.writer(csv_file)
-            save_file.writerows(data)
+    
+        if pd.isna(existing_data).any():
+            df.loc[index, col] = recipe_id
+        else:
+            current_data = str(existing_data.iloc[0])
+            if recipe_id not in current_data:
+                df.loc[index, col] = current_data + " " + recipe_id
+        
+       
+    
     else:
-        print('fail')
+        new_data = {'user_id': user_id, col: recipe_id}
+        
+        df = df._append(new_data, ignore_index=True)
 
+
+    
+    
+   
+    df.to_csv('user_recipes.csv', index=False)
+    
 
 
 

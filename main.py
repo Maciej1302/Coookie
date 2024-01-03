@@ -6,6 +6,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import StringProperty
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.uix.button import Button
@@ -34,7 +35,7 @@ class FirstWindow(Screen):
 class GuestApp(Screen,Widget):
     def GuestPress(self, ingredients):
         
-        print ('to jest z returna' + getRecipe(ingredients)*5)
+        
         return getRecipe(ingredients)*5
     pass
 
@@ -72,8 +73,7 @@ class SecondWindow(Screen):
             
 
 
-class MyAccount(Screen):
-    pass    
+
 
 
 class ThirdWindow(Screen):
@@ -130,15 +130,23 @@ class LoggedApp(Screen):
     pass
 
     def AddFavorite(self):
-        print(user_login)
+        
         recipe_A=self.ids.favorite_id_recipe.text
         recipe_B = self.ids.choosed_id_recipe.text
-        rm.add_favorite_choosed_recipe(recipe_A,user_login,7)
-        rm.add_favorite_choosed_recipe(recipe_B,user_login,8)
+        
+        rm.add_favorite_choosed_recipe(recipe_A,user_id,'favourite_recipes')
+        rm.add_favorite_choosed_recipe(recipe_B,user_id,'choosed_recipes')
         
 
 class OptionWindow(Screen):
-    pass
+    def go_to_my_account(self):
+        if 'my_account' in self.manager.screen_names:
+            self.manager.current = 'my_account'
+        else:
+            app = App.get_running_app()
+            app.build_my_acc()  
+            self.manager.current = 'my_account'
+
 
 class SavedRecipes(Screen):
     def SavedPress(self):
@@ -206,7 +214,7 @@ class KivyMatplotlibCanvas(FigureCanvasKivyAgg):
 class FoodAnalysis(Screen):
 
     def generate_analysis(self):
-        fig = graph.bar_plot(user_id)  # Załóżmy, że bar_plot zwraca obiekt Matplotlib Figure
+        fig = graph.bar_plot(user_id)  
         canvas = KivyMatplotlibCanvas(fig)
 
         layout = BoxLayout(orientation='vertical')
@@ -227,14 +235,93 @@ class FoodAnalysis(Screen):
 class FoodAnalysisScreen(Screen):
     pass
 
+class MyAccount(Screen):
+    unique_id = StringProperty('')
+    email = StringProperty('')
+    name = StringProperty('')
+    surname = StringProperty('')
+    date_of_birth = StringProperty('')
+    
+    def on_pre_enter(self, *args):
+        
+        self.load_user_data()
+
+    def on_leave(self, *args):
+        # Resetowanie danych użytkownika po opuszczeniu ekranu
+        self.reset_data()
+
+    def reset_data(self):
+        # Resetowanie wartości właściwości do wartości domyślnych
+        self.unique_id = ''
+        self.email = ''
+        self.name = ''
+        self.surname = ''
+        self.date_of_birth = ''
+
+    def load_user_data(self):
+        # Załaduj dane użytkownika i przypisz je do właściwości ekranu
+        
+        print('dziala??')
+        user_data = user.get_user_data(user_id)  # Załóżmy, że ta funkcja zwraca wszystkie potrzebne dane
+        print("dane to: ")
+        print(user_data)
+        self.email, self.name, self.surname, self.date_of_birth = user_data
+        self.unique_id = str(user_id)
+            
+
+        
+
+        
+
+
+    def change_password(self,current_password,new_password):
+        if verification.password_verification(new_password):
+            user.change_password(user_id,current_password, new_password)
+            return create_popup('The password has been successfully changed')
+        
+        else:
+            return create_popup('The current password is incorrect or \n the new password does not meet the requirements')
+            
+    
+    def change_email(self,new_email):
+        if verification.email_verification(new_email) and user.check_user_existence(new_email) == False:
+            user.change_email(user_id, new_email)
+            create_popup("The email address change was successful \n reopen 'My Account' to see the changes")
+        
+        else:
+            create_popup("The email address provided is incorrect or belongs to another user")
+
+
+def create_popup(message):
+    popup = Popup(title='Information',
+                  content=Label(text=message),
+                  size_hint=(None, None), size=(400, 400))
+    popup.open()
+
+
 kv = Builder.load_file("proto.kv")
+
 
 
 class MyMainApp(App):
     def build(self):
-        return kv
-
-
+        self.sm = ScreenManager()
+        self.sm.add_widget(FirstWindow(name='first'))
+        self.sm.add_widget(SecondWindow(name='second'))
+        self.sm.add_widget(ThirdWindow(name='third'))
+        self.sm.add_widget(RegisterWindow(name='register_window'))
+        self.sm.add_widget(OptionWindow(name='option'))
+        self.sm.add_widget(SavedRecipes(name='savedrecipes'))
+        self.sm.add_widget(GuestApp(name='guestapp'))
+        self.sm.add_widget(Analysis(name='analysis'))
+        self.sm.add_widget(LoggedApp(name='loggedapp'))
+        self.sm.add_widget(MyAccount(name='my_account'))
+        return self.sm
+        
+    def build_my_acc(self):
+        if 'my_account' not in self.sm.screen_names:
+            self.sm.add_widget(MyAccount(name='my_account'))
+    
 if __name__ == "__main__":
     MyMainApp().run()
 
