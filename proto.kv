@@ -16,6 +16,35 @@
             text:"Close"
             on_release: root.dismiss()
 
+<ConfirmDeletePopup>:
+    title: 'CONFIRM ACCOUNT DELETION'
+    size_hint: 0.8, 0.4
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: [10, 10, 10, 10]  # Góra, prawo, dół, lewo
+
+        Label:
+            text: 'ARE YOU SURE YOU WANT TO DELETE YOUR ACCOUNT?'
+            size_hint_y: 0.7
+
+        BoxLayout:
+            size_hint_y: 0.3
+            spacing: 10
+
+            Button:
+                text: 'GO BACK'
+                size_hint: 0.5, 1
+                on_release:
+                    root.dismiss()  # Zamknij popup
+
+            Button:
+                text: 'CONFIRM'
+                size_hint: 0.5, 1
+                on_release:            
+                    # Funkcja usuwająca konto
+                    root.dismiss()  # Zamknij popup
+                    app.root.current = 'first'  # Przejdź do ekranu początkowego
 WindowManager:
     OptionWindow:
     LoggedApp:
@@ -709,6 +738,8 @@ WindowManager:
                 Button:
                     text: "Delete Account"
                     font_size: 20
+                    on_release:
+                        Factory.ConfirmDeletePopup().open()
 
                 Button:
                     text: "Go back"    

@@ -25,7 +25,8 @@ from kivy.metrics import dp
 class MyPopup(Popup):
     pass
 
-
+class ConfirmDeletePopup(Popup):
+    pass
 
 class FirstWindow(Screen):
     
@@ -297,6 +298,7 @@ def create_popup(message):
                   content=Label(text=message),
                   size_hint=(None, None), size=(400, 400))
     popup.open()
+
 
 
 kv = Builder.load_file("proto.kv")
