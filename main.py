@@ -26,6 +26,8 @@ class MyPopup(Popup):
     pass
 
 class ConfirmDeletePopup(Popup):
+    def delete_account(self):
+        user.delete_acc(user_id)
     pass
 
 class FirstWindow(Screen):

@@ -70,6 +70,11 @@ def change_email(user_id,new_email):
     df.loc[df['id'] == user_id, 'email'] = new_email
     df.to_csv('users.csv', index=False)
        
-change_email(1,'gfgfdgfdigf')
 
+def delete_acc(user_id):
+    df = pd.read_csv('users.csv')
+    df = df[df['id'] != user_id]
+    df.to_csv('users.csv', index=False)
+
+delete_acc(2)
         

@@ -36,15 +36,18 @@
                 text: 'GO BACK'
                 size_hint: 0.5, 1
                 on_release:
-                    root.dismiss()  # Zamknij popup
+                    root.dismiss()  
 
             Button:
                 text: 'CONFIRM'
                 size_hint: 0.5, 1
                 on_release:            
                     # Funkcja usuwająca konto
-                    root.dismiss()  # Zamknij popup
-                    app.root.current = 'first'  # Przejdź do ekranu początkowego
+                    root.dismiss()  
+                    app.root.current = 'first' 
+                    root.delete_account()
+                    
+                    
 WindowManager:
     OptionWindow:
     LoggedApp:
