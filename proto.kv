@@ -755,42 +755,71 @@ WindowManager:
                
         
 <SavedRecipes>
-    name:"savedrecipes"
+    name: "savedrecipes"
 
+    BoxLayout:
+        orientation: "vertical"
+        padding: 20 
 
-    GridLayout:
-        cols:1
-        Label:
-            id:user_saved_recipes
-            font_size:20
-            text:"Your saved recipes:"
-            size_hint: 0.05, 0.2
-            background_color: 1,1, 0, 1
-        ScrollView:
-            Label:
-                id:your_saved_recipes
-                size_hint_y: None
-                height: self.texture_size[1]
-                text_size: self.width, None
-                text:"Your saved recipes:"
-                background_color: 0, 0, 0, 1
-        
-        Button:
-            text: "Refresh your saved recipes"
-            size_hint: 0.05, 0.2
-            font_size: 25
-            on_release:
-                root.SavedPress()
-               
-                
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1  # Ustaw kolor tła na biały
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
-        Button:
-            text: "Go Back"
-            size_hint: 0.05, 0.2
-            font_size: 25
-            on_release:
-                app.root.current = "option"
-                root.manager.transition.direction = "down"         
+        AnchorLayout:
+            anchor_x: "center"
+            anchor_y: "center"
+
+            GridLayout:
+                rows: 4
+                spacing: 10
+
+                Label:
+                    id: user_saved_recipes
+                    color: 0, 0, 0, 1
+                    font_size: 20
+                    text: "Your saved recipes:"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+                    halign: 'center'
+                    valign: 'middle'
+                    text_size: self.width, None
+
+                # Scroll view remains unchanged, assuming you want to keep this functionality
+                ScrollView:
+                    Label:
+                        id: your_saved_recipes
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        color: 0, 0, 0, 1
+                        text_size: self.width, None
+                        text: "Your saved recipes:"
+                        halign: 'center'
+                        valign: 'middle'
+
+                # Button for refreshing saved recipes, styled similarly to the image provided
+                Button:
+                    text: "Refresh your saved recipes"
+                    size_hint: (1, 0.1)
+                    font_size: 25
+                    background_normal: ''
+                    background_color: (0.5, 0.5, 0.5, 1) # Assuming a grey color from the image
+                    on_release:
+                        root.SavedPress()
+
+                # Button for going back, styled similarly to the image provided
+                Button:
+                    text: "Go Back"
+                    size_hint: (1, 0.1)
+                    font_size: 25
+                    background_normal: ''
+                    background_color: (0.5, 0.5, 0.5, 1) # Assuming a grey color from the image
+                    on_release:
+                        app.root.current = "option"
+                        root.manager.transition.direction = "down"
+
            
 <Analysis>
     name:"analysis"
