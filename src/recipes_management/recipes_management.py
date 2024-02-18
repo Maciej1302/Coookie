@@ -1,5 +1,6 @@
 import pandas as pd
 import csv
+import sqlite3
 
 
 
@@ -65,16 +66,39 @@ def  add_favorite_choosed_recipe(recipe_id,user_id,col): #recipes management
 
 
 
-def  find_favorite_choosed_recipe(login): #recipes management
-    file='users.csv'
-    favorite_recipe=""
-    with open('users.csv', 'r') as plik_csv:
-        csv_reader = csv.reader(plik_csv)
-        for row in csv_reader:
-            first_col = row[0]
-            if first_col==login:
-                print(row[4])
-                favorite_recipe=row[4]
-    return favorite_recipe
+def find_favorite_choosed_recipe(user_id): #recipes management
 
-            
+    df_user_recipes = pd.read_csv("user_recipes.csv")
+    fav_recipes_str = df_user_recipes[df_user_recipes['user_id'] == user_id]['favourite_recipes'].iloc[0]
+    fav_recipes_list = fav_recipes_str.split(' ')
+
+    print(fav_recipes_list)
+
+    data_csv = 'recipes.csv'
+    df = pd.read_csv(data_csv)
+    conn = sqlite3.connect('recipes.db')
+    df.to_sql('recipe_table', conn, if_exists='replace', index=False)
+    conn.close()
+    conn = sqlite3.connect('recipes.db')
+    c = conn.cursor()
+
+    placeholders = ','.join('?' for _ in fav_recipes_list)  # Tworzenie placeholderów
+    zapytanie = f'SELECT description FROM recipe_table WHERE id IN ({placeholders})'
+
+    c = conn.cursor()
+    c.execute(zapytanie, fav_recipes_list)
+    wyniki = c.fetchall()
+
+    final_result = ' ' 
+
+    for output in wyniki:
+        final_result += output[0] + '\n'
+
+    print(final_result)
+    return final_result
+
+    
+    
+
+
+find_favorite_choosed_recipe(3)

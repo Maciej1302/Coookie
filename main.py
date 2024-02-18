@@ -152,9 +152,16 @@ class OptionWindow(Screen):
 
 
 class SavedRecipes(Screen):
-    def SavedPress(self):
-        self.ids.your_saved_recipes.text=rm.find_favorite_choosed_recipe(user_login)
-    pass
+    def on_enter(self, *args):
+        super(SavedRecipes, self).on_enter(*args)
+        self.load_saved_recipes()
+
+    def load_saved_recipes(self):
+        
+        self.ids.your_saved_recipes.text = rm.find_favorite_choosed_recipe(user_id)
+
+
+
 
 class Analysis(Screen):
     pass

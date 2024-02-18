@@ -799,15 +799,15 @@ WindowManager:
                         halign: 'center'
                         valign: 'middle'
 
-                # Button for refreshing saved recipes, styled similarly to the image provided
+                
                 Button:
                     text: "Refresh your saved recipes"
                     size_hint: (1, 0.1)
                     font_size: 25
                     background_normal: ''
-                    background_color: (0.5, 0.5, 0.5, 1) # Assuming a grey color from the image
+                    background_color: (0.5, 0.5, 0.5, 1) 
                     on_release:
-                        root.SavedPress()
+                        root.load_saved_recipes()
 
                 # Button for going back, styled similarly to the image provided
                 Button:
